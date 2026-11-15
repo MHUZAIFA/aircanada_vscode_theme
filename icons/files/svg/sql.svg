@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <mask id="notch">
+      <rect width="32" height="32" fill="#fff"/>
+      <circle cx="8" cy="7" r="2.1" fill="#000"/>
+      <circle cx="8" cy="25" r="2.1" fill="#000"/>
+    </mask>
+  </defs>
+  <g mask="url(#notch)">
+    <rect x="1" y="7" width="30" height="18" rx="3" fill="#E6E8EC"/>
+    <path d="M1 10a3 3 0 0 1 3-3h4v18H4a3 3 0 0 1-3-3z" fill="#5FD3E8"/>
+  </g>
+  <path d="M8 9.5v13" stroke="#1A1C20" stroke-opacity=".35" stroke-width="1" stroke-dasharray="1.5 1.5"/>
+  <text x="19.6" y="19.6" text-anchor="middle" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="8.2" font-weight="700" letter-spacing="-0.2" fill="#1A1C20">SQL</text>
+</svg>

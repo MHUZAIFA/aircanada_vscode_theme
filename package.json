@@ -1,0 +1,584 @@
+{
+  "name": "air-canada-flight-deck-theme",
+  "displayName": "Air Canada Flight Deck",
+  "description": "VS Code colour themes, aviation product/file icons, a status-bar flight timer and cockpit-style notifications for Air Canada employees.",
+  "version": "0.3.1",
+  "publisher": "mhuzaifa",
+  "author": {
+    "name": "MHUZAIFA",
+    "url": "https://github.com/MHUZAIFA"
+  },
+  "homepage": "https://mohammedhuzaifa.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MHUZAIFA/aircanada_vscode_theme.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MHUZAIFA/aircanada_vscode_theme/issues"
+  },
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Themes",
+    "Other"
+  ],
+  "keywords": [
+    "theme",
+    "dark",
+    "light",
+    "aviation",
+    "airline",
+    "air canada",
+    "cockpit",
+    "icons",
+    "pomodoro",
+    "focus timer"
+  ],
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#0B0C0F",
+    "theme": "dark"
+  },
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Air Canada Flight Deck",
+        "uiTheme": "vs-dark",
+        "path": "./themes/air-canada-flight-deck-color-theme.json"
+      },
+      {
+        "label": "Air Canada Signature Light",
+        "uiTheme": "vs",
+        "path": "./themes/air-canada-signature-light-color-theme.json"
+      },
+      {
+        "label": "Air Canada Rouge",
+        "uiTheme": "vs-dark",
+        "path": "./themes/air-canada-rouge-color-theme.json"
+      }
+    ],
+    "productIconThemes": [
+      {
+        "id": "air-canada-aviation-product-icons",
+        "label": "Air Canada Aviation",
+        "path": "./icons/product/air-canada-product-icons.json"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "air-canada-aviation-file-icons",
+        "label": "Air Canada Aviation (Boarding Pass)",
+        "path": "./icons/files/air-canada-file-icons.json"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "airCanada",
+          "title": "Air Canada",
+          "icon": "media/activity.svg"
+        }
+      ]
+    },
+    "views": {
+      "airCanada": [
+        {
+          "id": "airCanada.session",
+          "name": "Flight Deck",
+          "type": "webview",
+          "icon": "media/activity.svg",
+          "contextualTitle": "Flight deck — session, tasks, meetings"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "airCanada.flight.board",
+          "when": "view == airCanada.session && airCanada.flight.phase != flying && airCanada.flight.phase != paused",
+          "group": "navigation@1"
+        },
+        {
+          "command": "airCanada.flight.pause",
+          "when": "view == airCanada.session && airCanada.flight.phase == flying",
+          "group": "navigation@1"
+        },
+        {
+          "command": "airCanada.flight.resume",
+          "when": "view == airCanada.session && airCanada.flight.phase == paused",
+          "group": "navigation@1"
+        },
+        {
+          "command": "airCanada.flight.cancel",
+          "when": "view == airCanada.session && airCanada.flight.phase != idle",
+          "group": "navigation@2"
+        },
+        {
+          "command": "airCanada.flight.setDuration",
+          "when": "view == airCanada.session",
+          "group": "1_config@1"
+        },
+        {
+          "command": "airCanada.flight.setRoute",
+          "when": "view == airCanada.session",
+          "group": "1_config@2"
+        },
+        {
+          "command": "airCanada.flight.setAircraft",
+          "when": "view == airCanada.session",
+          "group": "1_config@3"
+        },
+        {
+          "command": "airCanada.checklist.add",
+          "when": "view == airCanada.session",
+          "group": "2_lists@1"
+        },
+        {
+          "command": "airCanada.checklist.clearDone",
+          "when": "view == airCanada.session && airCanada.checklist.hasDone",
+          "group": "2_lists@2"
+        },
+        {
+          "command": "airCanada.meetings.add",
+          "when": "view == airCanada.session",
+          "group": "2_lists@3"
+        },
+        {
+          "command": "airCanada.meetings.demo",
+          "when": "view == airCanada.session",
+          "group": "2_lists@4"
+        },
+        {
+          "command": "airCanada.checklist.clearAll",
+          "when": "view == airCanada.session",
+          "group": "3_danger@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "airCanada.checklist.edit",
+          "when": "false"
+        },
+        {
+          "command": "airCanada.checklist.toggle",
+          "when": "false"
+        },
+        {
+          "command": "airCanada.checklist.remove",
+          "when": "false"
+        },
+        {
+          "command": "airCanada.flight.toggle",
+          "when": "false"
+        },
+        {
+          "command": "airCanada.flight.extend",
+          "when": "false"
+        },
+        {
+          "command": "airCanada.flight.extendCustom",
+          "when": "airCanada.flight.phase == flying || airCanada.flight.phase == paused"
+        },
+        {
+          "command": "airCanada.flight.cancel",
+          "when": "airCanada.flight.phase != idle"
+        },
+        {
+          "command": "airCanada.flight.returnFlight",
+          "when": "airCanada.flight.phase == landed"
+        },
+        {
+          "command": "airCanada.meetings.edit",
+          "when": "false"
+        },
+        {
+          "command": "airCanada.meetings.remove",
+          "when": "false"
+        },
+        {
+          "command": "airCanada.meetings.join",
+          "when": "false"
+        },
+        {
+          "command": "airCanada.meetings.flybyAction",
+          "when": "false"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "airCanada.flight.board",
+        "title": "Board Flight (start coding session)",
+        "category": "Air Canada",
+        "icon": "$(play)"
+      },
+      {
+        "command": "airCanada.flight.start",
+        "title": "Start Flight with Default Length",
+        "category": "Air Canada"
+      },
+      {
+        "command": "airCanada.flight.pause",
+        "title": "Pause Flight (holding pattern)",
+        "category": "Air Canada",
+        "icon": "$(debug-pause)"
+      },
+      {
+        "command": "airCanada.flight.resume",
+        "title": "Resume Flight",
+        "category": "Air Canada",
+        "icon": "$(play)"
+      },
+      {
+        "command": "airCanada.flight.toggle",
+        "title": "Toggle Flight",
+        "category": "Air Canada"
+      },
+      {
+        "command": "airCanada.flight.reset",
+        "title": "Reset Flight",
+        "category": "Air Canada",
+        "icon": "$(debug-restart)"
+      },
+      {
+        "command": "airCanada.flight.cancel",
+        "title": "Cancel Flight (back to gate)",
+        "category": "Air Canada",
+        "icon": "$(close)"
+      },
+      {
+        "command": "airCanada.flight.extend",
+        "title": "Extend Flight",
+        "category": "Air Canada"
+      },
+      {
+        "command": "airCanada.flight.extendCustom",
+        "title": "Extend Flight by…",
+        "category": "Air Canada",
+        "icon": "$(add)"
+      },
+      {
+        "command": "airCanada.flight.returnFlight",
+        "title": "Return Flight (swap route, same length)",
+        "category": "Air Canada"
+      },
+      {
+        "command": "airCanada.flight.openDeck",
+        "title": "Open Flight Deck",
+        "category": "Air Canada",
+        "icon": "$(layout-sidebar-left)"
+      },
+      {
+        "command": "airCanada.checklist.add",
+        "title": "Add Task to Flight Plan",
+        "category": "Air Canada",
+        "icon": "$(add)"
+      },
+      {
+        "command": "airCanada.checklist.edit",
+        "title": "Edit Task",
+        "category": "Air Canada",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "airCanada.checklist.toggle",
+        "title": "Toggle Task Done",
+        "category": "Air Canada"
+      },
+      {
+        "command": "airCanada.checklist.remove",
+        "title": "Remove Task",
+        "category": "Air Canada",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "airCanada.checklist.clearDone",
+        "title": "Clear Landed Tasks",
+        "category": "Air Canada",
+        "icon": "$(check-all)"
+      },
+      {
+        "command": "airCanada.checklist.clearAll",
+        "title": "Clear Flight Plan",
+        "category": "Air Canada"
+      },
+      {
+        "command": "airCanada.meetings.add",
+        "title": "Add Meeting Reminder",
+        "category": "Air Canada",
+        "icon": "$(add)"
+      },
+      {
+        "command": "airCanada.meetings.edit",
+        "title": "Edit Meeting Reminder",
+        "category": "Air Canada",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "airCanada.meetings.remove",
+        "title": "Remove Meeting Reminder",
+        "category": "Air Canada",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "airCanada.meetings.preview",
+        "title": "Preview Fly-by for Meeting",
+        "category": "Air Canada",
+        "icon": "$(rocket)"
+      },
+      {
+        "command": "airCanada.meetings.join",
+        "title": "Join Meeting",
+        "category": "Air Canada",
+        "icon": "$(link-external)"
+      },
+      {
+        "command": "airCanada.meetings.clearPast",
+        "title": "Clear Past Meetings",
+        "category": "Air Canada",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "airCanada.meetings.demo",
+        "title": "Preview the Meeting Fly-by (demo)",
+        "category": "Air Canada",
+        "icon": "$(play-circle)"
+      },
+      {
+        "command": "airCanada.meetings.flybyAction",
+        "title": "Fly-by action",
+        "category": "Air Canada"
+      },
+      {
+        "command": "airCanada.flight.setRoute",
+        "title": "Set Flight Route (origin → destination)",
+        "category": "Air Canada",
+        "icon": "$(location)"
+      },
+      {
+        "command": "airCanada.flight.setDuration",
+        "title": "Set Default Session Length",
+        "category": "Air Canada",
+        "icon": "$(watch)"
+      },
+      {
+        "command": "airCanada.flight.setAircraft",
+        "title": "Set Aircraft Type",
+        "category": "Air Canada",
+        "icon": "$(rocket)"
+      },
+      {
+        "command": "airCanada.enableRecommendedSettings",
+        "title": "Enable Recommended Editor Settings",
+        "category": "Air Canada"
+      },
+      {
+        "command": "airCanada.openPreflight",
+        "title": "Open Pre-flight Checklist",
+        "category": "Air Canada"
+      }
+    ],
+    "configuration": {
+      "title": "Air Canada Flight Deck",
+      "properties": {
+        "airCanada.flight.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the flight focus timer in the status bar."
+        },
+        "airCanada.flight.durationMinutes": {
+          "type": "number",
+          "default": 50,
+          "minimum": 1,
+          "maximum": 600,
+          "description": "Default coding-session length in minutes. \"Board Flight\" lets you pick a different length per session."
+        },
+        "airCanada.flight.origin": {
+          "type": "string",
+          "default": "YYZ",
+          "maxLength": 4,
+          "description": "Departure airport code shown on the flight track."
+        },
+        "airCanada.flight.destination": {
+          "type": "string",
+          "default": "YVR",
+          "maxLength": 4,
+          "description": "Arrival airport code shown on the flight track."
+        },
+        "airCanada.flight.autoStart": {
+          "type": "boolean",
+          "default": false,
+          "description": "Board a flight automatically when VS Code starts."
+        },
+        "airCanada.flight.aircraft": {
+          "type": "string",
+          "default": "Boeing 777-300ER",
+          "enum": [
+            "Boeing 777-300ER",
+            "Boeing 777-200LR",
+            "Boeing 787-9 Dreamliner",
+            "Boeing 787-8 Dreamliner",
+            "Airbus A330-300",
+            "Airbus A321neo",
+            "Airbus A321",
+            "Airbus A320",
+            "Airbus A220-300",
+            "Boeing 737 MAX 8",
+            "Embraer E175",
+            "Bombardier CRJ900",
+            "De Havilland Dash 8-400",
+            "Airbus A380",
+            "Boeing 747-400",
+            "Airbus A350-1000"
+          ],
+          "description": "Aircraft type shown on the flight deck and in the status-bar hover."
+        },
+        "airCanada.notifications.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Master switch for cockpit-style notifications."
+        },
+        "airCanada.notifications.welcome": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the \"Boarding complete\" message when a workspace opens."
+        },
+        "airCanada.notifications.tasks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Announce task results: \"Wheels up\" on success, \"Go-around\" on failure."
+        },
+        "airCanada.notifications.debug": {
+          "type": "boolean",
+          "default": true,
+          "description": "Announce debug sessions: \"Cleared for takeoff\" / \"Landed\"."
+        },
+        "airCanada.meetings.leadMinutes": {
+          "type": "number",
+          "default": 5,
+          "minimum": 1,
+          "maximum": 120,
+          "description": "How many minutes before a meeting the plane flies by."
+        },
+        "airCanada.meetings.flyby.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open the animated fly-by panel (plane towing the meeting card) beside the editor."
+        },
+        "airCanada.meetings.flyby.durationSeconds": {
+          "type": "number",
+          "default": 20,
+          "minimum": 5,
+          "maximum": 120,
+          "description": "How long the fly-by panel stays open before auto-dismissing (hovering the card pauses it)."
+        },
+        "airCanada.meetings.statusBarFlyby": {
+          "type": "boolean",
+          "default": true,
+          "description": "Animate a ✈ across the status bar with the meeting summary."
+        },
+        "airCanada.meetings.notification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Also show a notification with Join / Snooze buttons."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "airCanada.preflight",
+        "title": "Pre-flight checklist",
+        "description": "Set up the Air Canada Flight Deck in four steps.",
+        "steps": [
+          {
+            "id": "pickTheme",
+            "title": "Select your aircraft",
+            "description": "Pick a colour theme: **Flight Deck** (dark), **Signature Light** or **Rouge**.\n[Choose Colour Theme](command:workbench.action.selectTheme)",
+            "media": {
+              "markdown": "media/walkthrough/01-theme.md"
+            },
+            "completionEvents": [
+              "onSettingChanged:workbench.colorTheme"
+            ]
+          },
+          {
+            "id": "icons",
+            "title": "Aviation icons",
+            "description": "Swap the workbench glyphs and file icons for the aviation set.\n[Product Icons](command:workbench.action.selectProductIconTheme)\n[File Icons](command:workbench.action.selectIconTheme)",
+            "media": {
+              "markdown": "media/walkthrough/02-icons.md"
+            },
+            "completionEvents": [
+              "onSettingChanged:workbench.productIconTheme",
+              "onSettingChanged:workbench.iconTheme"
+            ]
+          },
+          {
+            "id": "brackets",
+            "title": "Approach lights",
+            "description": "Turn on bracket-pair colours and semantic highlighting so the EFIS colour grammar is fully lit.\n[Enable Recommended Settings](command:airCanada.enableRecommendedSettings)",
+            "media": {
+              "markdown": "media/walkthrough/03-settings.md"
+            },
+            "completionEvents": [
+              "onCommand:airCanada.enableRecommendedSettings"
+            ]
+          },
+          {
+            "id": "flight",
+            "title": "First flight",
+            "description": "Board a coding session from the status bar or the Session view. Pick 25 / 50 / 90 minutes or your own; the ✈ taxis from origin to destination as time passes.\n[Board Flight](command:airCanada.flight.board)",
+            "media": {
+              "markdown": "media/walkthrough/04-flight.md"
+            },
+            "completionEvents": [
+              "onCommand:airCanada.flight.board",
+              "onCommand:airCanada.flight.start"
+            ]
+          },
+          {
+            "id": "flightPlan",
+            "title": "File a flight plan",
+            "description": "Keep today's tasks in the **Flight Plan** view (Air Canada icon in the activity bar). Tick them off as they land.\n[Add First Task](command:airCanada.checklist.add)",
+            "media": {
+              "markdown": "media/walkthrough/05-flight-plan.md"
+            },
+            "completionEvents": [
+              "onCommand:airCanada.checklist.add"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build:themes": "node scripts/build-themes.js",
+    "build:file-icons": "node scripts/build-file-icons.js",
+    "build:product-icons": "node scripts/build-product-icons.js",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "build": "npm run build:themes && npm run build:file-icons && npm run build:product-icons && npm run compile",
+    "vscode:prepublish": "npm run build",
+    "package": "vsce package",
+    "release": "npm run build && vsce package -o releases/air-canada-flight-deck-theme.vsix",
+    "validate": "node -e \"for (const f of require('fs').readdirSync('themes')) JSON.parse(require('fs').readFileSync('themes/'+f,'utf8')); console.log('themes OK')\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^3.0.0",
+    "fantasticon": "^3.0.0",
+    "typescript": "^5.4.0"
+  }
+}

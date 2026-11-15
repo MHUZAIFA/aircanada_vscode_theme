@@ -1,0 +1,74 @@
+{
+  "$schema": "vscode://schemas/product-icon-theme",
+  "fonts": [
+    {
+      "id": "ac-aviation",
+      "src": [
+        {
+          "path": "./dist/ac-aviation.woff",
+          "format": "woff"
+        }
+      ],
+      "weight": "normal",
+      "style": "normal"
+    }
+  ],
+  "iconDefinitions": {
+    "terminal": {
+      "fontCharacter": "\\F101",
+      "fontId": "ac-aviation"
+    },
+    "source-control": {
+      "fontCharacter": "\\F102",
+      "fontId": "ac-aviation"
+    },
+    "settings-gear": {
+      "fontCharacter": "\\F103",
+      "fontId": "ac-aviation"
+    },
+    "search": {
+      "fontCharacter": "\\F104",
+      "fontId": "ac-aviation"
+    },
+    "remote": {
+      "fontCharacter": "\\F105",
+      "fontId": "ac-aviation"
+    },
+    "home": {
+      "fontCharacter": "\\F106",
+      "fontId": "ac-aviation"
+    },
+    "git-branch": {
+      "fontCharacter": "\\F107",
+      "fontId": "ac-aviation"
+    },
+    "files": {
+      "fontCharacter": "\\F108",
+      "fontId": "ac-aviation"
+    },
+    "extensions": {
+      "fontCharacter": "\\F109",
+      "fontId": "ac-aviation"
+    },
+    "debug-start": {
+      "fontCharacter": "\\F10A",
+      "fontId": "ac-aviation"
+    },
+    "debug-alt": {
+      "fontCharacter": "\\F10B",
+      "fontId": "ac-aviation"
+    },
+    "bell": {
+      "fontCharacter": "\\F10C",
+      "fontId": "ac-aviation"
+    },
+    "bell-dot": {
+      "fontCharacter": "\\F10D",
+      "fontId": "ac-aviation"
+    },
+    "account": {
+      "fontCharacter": "\\F10E",
+      "fontId": "ac-aviation"
+    }
+  }
+}

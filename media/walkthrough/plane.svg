@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="320" viewBox="0 0 640 320">
+  <rect width="640" height="320" rx="16" fill="#0B0C0F"/>
+  <!-- runway centreline -->
+  <g fill="#FFFFFF" opacity=".18">
+    <rect x="60" y="250" width="60" height="6" rx="3"/>
+    <rect x="150" y="250" width="60" height="6" rx="3"/>
+    <rect x="240" y="250" width="60" height="6" rx="3"/>
+    <rect x="330" y="250" width="60" height="6" rx="3"/>
+    <rect x="420" y="250" width="60" height="6" rx="3"/>
+    <rect x="510" y="250" width="60" height="6" rx="3"/>
+  </g>
+  <!-- runway edge lights -->
+  <g fill="#F2B544">
+    <circle cx="80" cy="290" r="4"/><circle cx="180" cy="290" r="4"/><circle cx="280" cy="290" r="4"/>
+    <circle cx="380" cy="290" r="4"/><circle cx="480" cy="290" r="4"/><circle cx="580" cy="290" r="4"/>
+  </g>
+  <!-- aircraft, plan view, white fuselage -->
+  <g transform="translate(320 150) rotate(-18)" fill="#FFFFFF">
+    <path d="M0-92c8 0 12 12 12 26v88c0 10-2 20-4 26H-8c-2-6-4-16-4-26v-88c0-14 4-26 12-26z"/>
+    <path d="M-10-32-88 8c-4 2-4 10 0 12l78-12z"/>
+    <path d="M10-32 88 8c4 2 4 10 0 12L10 8z"/>
+  </g>
+  <!-- tail in Rondelle red -->
+  <g transform="translate(320 150) rotate(-18)" fill="#F01428">
+    <path d="M-9 30-42 54c-3 2-2 7 1 7l33-9z"/>
+    <path d="M9 30 42 54c3 2 2 7-1 7L9 52z"/>
+  </g>
+  <text x="32" y="48" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#FFFFFF">FLIGHT DECK</text>
+  <text x="32" y="72" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13" fill="#9AA1AD">Pre-flight checklist</text>
+</svg>

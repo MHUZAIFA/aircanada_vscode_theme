@@ -1,0 +1,14 @@
+.vscode/**
+.git/**
+.gitignore
+node_modules/**
+src/**
+scripts/**
+samples/**
+icons/product/svg/**
+images/icon.svg
+tsconfig.json
+out/**/*.map
+*.vsix
+.DS_Store
+releases/**
