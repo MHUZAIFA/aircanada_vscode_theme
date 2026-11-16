@@ -8,7 +8,10 @@
 
 Colour themes in the 2017 livery · aviation icons · a focus timer that flies · a flight plan for your tasks · meeting reminders that arrive by plane
 
-**[⬇ Download the latest .vsix](https://github.com/MHUZAIFA/aircanada_vscode_theme/raw/main/releases/air-canada-flight-deck-theme.vsix)** · [Boarding instructions](#-boarding-install) · [What's on board](#-whats-on-board)
+[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/MHuzaifa.air-canada-flight-deck-theme?label=VS%20Code%20Marketplace&color=F01428&logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=MHuzaifa.air-canada-flight-deck-theme)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/MHuzaifa.air-canada-flight-deck-theme?color=2E2A25)](https://marketplace.visualstudio.com/items?itemName=MHuzaifa.air-canada-flight-deck-theme)
+
+**[✈ Get it on the Marketplace](https://marketplace.visualstudio.com/items?itemName=MHuzaifa.air-canada-flight-deck-theme)** · [⬇ Download the .vsix](https://github.com/MHUZAIFA/aircanada_vscode_theme/raw/main/releases/air-canada-flight-deck-theme.vsix) · [Boarding instructions](#-boarding-install) · [What's on board](#-whats-on-board)
 
 <img src="images/screenshots/hero-en-route.png" alt="VS Code with the Air Canada Flight Deck theme: a flight en route from YUL to YYZ in the sidebar and the status bar" />
 
@@ -37,24 +40,34 @@ Colour themes in the 2017 livery · aviation icons · a focus timer that flies �
 
 ## 🧳 Boarding (install)
 
-No Marketplace queue. Grab the file straight from GitHub.
+### Fast track: the VS Code Marketplace
 
-1. **Download** [air-canada-flight-deck-theme.vsix](https://github.com/MHUZAIFA/aircanada_vscode_theme/raw/main/releases/air-canada-flight-deck-theme.vsix). You can also open the [`releases`](releases) folder and click **Download raw file**.
-2. **Open the Extensions view** in VS Code: `Cmd+Shift+X` on macOS, `Ctrl+Shift+X` on Windows and Linux.
-3. **Click the `···` menu** at the top of the Extensions view and choose **Install from VSIX…**
-4. **Pick the file** you downloaded. VS Code says *Completed installing extension* when you're on board.
-5. **Reload:** run **Developer: Reload Window** from the Command Palette (`Cmd/Ctrl+Shift+P`).
-6. **Choose your cabin:** **Preferences: Color Theme** (`Cmd/Ctrl+K`, then `Cmd/Ctrl+T`), then *Air Canada Flight Deck*, *Signature Light* or *Rouge*.
-7. **Optional upgrade:** **Preferences: File Icon Theme** and **Preferences: Product Icon Theme**, then *Air Canada Aviation*.
+1. **Open the Extensions view** in VS Code: `Cmd+Shift+X` on macOS, `Ctrl+Shift+X` on Windows and Linux.
+2. **Search** for **Air Canada Flight Deck** and click **Install**. You can also click **Install** on the [Marketplace page](https://marketplace.visualstudio.com/items?itemName=MHuzaifa.air-canada-flight-deck-theme).
+3. **Choose your cabin:** **Preferences: Color Theme** (`Cmd/Ctrl+K`, then `Cmd/Ctrl+T`), then *Air Canada Flight Deck*, *Signature Light* or *Rouge*.
+4. **Optional upgrade:** **Preferences: File Icon Theme** and **Preferences: Product Icon Theme**, then *Air Canada Aviation*.
 
-Prefer the jet bridge? Install from the terminal after downloading:
+Prefer the jet bridge? One command does it:
 
 ```bash
-code --install-extension air-canada-flight-deck-theme.vsix
+code --install-extension MHuzaifa.air-canada-flight-deck-theme
 ```
 
-- **Updating:** download the file again and repeat steps 3 to 5. VS Code replaces the old version.
-- **Deplaning:** Extensions view, then *Air Canada Flight Deck*, then **Uninstall**. No hard feelings.
+Marketplace installs update themselves whenever a new version is published.
+
+### Standby: download the .vsix from GitHub
+
+For machines that can't reach the Marketplace.
+
+1. **Download** [air-canada-flight-deck-theme.vsix](https://github.com/MHUZAIFA/aircanada_vscode_theme/raw/main/releases/air-canada-flight-deck-theme.vsix). You can also open the [`releases`](releases) folder and click **Download raw file**.
+2. **Open the Extensions view**, click the **`···`** menu at the top and choose **Install from VSIX…**
+3. **Pick the file** you downloaded. VS Code says *Completed installing extension* when you're on board.
+4. **Reload:** run **Developer: Reload Window** from the Command Palette (`Cmd/Ctrl+Shift+P`).
+5. **Choose your cabin** and icons as in steps 3 and 4 above.
+
+To update a .vsix install, download the file again and repeat steps 2 to 4.
+
+**Deplaning:** Extensions view, then *Air Canada Flight Deck*, then **Uninstall**. No hard feelings.
 
 ---
 
@@ -281,11 +294,12 @@ npm run package      # produces a .vsix in the project folder
 
 Or press `F5` with the folder open in VS Code to fly a test aircraft in an Extension Development Host.
 
-### Ship a new downloadable build
+### Ship a new version
 
-1. Bump `version` in `package.json` and add a `CHANGELOG.md` entry.
+1. Bump `version` in `package.json` and add a `CHANGELOG.md` entry. The Marketplace rejects a version number it already has.
 2. Run `npm run release`. It builds everything and writes `releases/air-canada-flight-deck-theme.vsix`.
-3. Commit and push. The download link at the top always serves the newest file.
+3. **Marketplace:** on the [publisher page](https://marketplace.visualstudio.com/manage/publishers/mhuzaifa), open the **⋯** menu next to the extension, choose **Update** and upload that file. With an access token set up, `npx vsce publish` does the same from the terminal.
+4. **GitHub:** commit and push. The download link at the top always serves the newest file, and the README's screenshots load from the repository.
 
 ### Repaint the fleet
 
