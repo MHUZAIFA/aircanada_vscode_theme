@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2 — 2026-11-15
+
+- Streamlined README with screenshots, Marketplace badges and install steps.
+
 ## 0.3.1 — 2026-11-15
 
 - **Download from GitHub**: the latest build lives at `releases/air-canada-flight-deck-theme.vsix`, linked from the README with install steps. `npm run release` rebuilds it.

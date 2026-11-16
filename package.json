@@ -2,7 +2,7 @@
   "name": "air-canada-flight-deck-theme",
   "displayName": "Air Canada Flight Deck",
   "description": "VS Code colour themes, aviation product/file icons, a status-bar flight timer and cockpit-style notifications for Air Canada employees.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "publisher": "mhuzaifa",
   "author": {
     "name": "MHUZAIFA",
