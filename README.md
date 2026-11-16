@@ -156,8 +156,15 @@ Brand colours are sampled from the official 2017 logo files: Air Canada red `#F0
 
 ## 🛩️ Aviation icons
 
-- **Product icons.** The workbench gets aviation glyphs: a luggage-tag Explorer, radar Search, route-map Source Control, airliner Run & Debug, control-tower Remote, runway Terminal and a fasten-seatbelt sign for notifications.
-- **File icons.** Every file is a boarding pass with a language code like `TS`, `PY` or `JSON`. Folders are hangars, and the workspace root is a control tower.
+<img src="images/screenshots/file-icons.png" alt="Luggage-tag file icons and colour-coded folder icons in the Explorer" />
+
+**File icons: "Air Canada Aviation (Luggage Tags)".** Pick them with *Preferences: File Icon Theme*.
+
+- **Every file is a luggage tag** in its language's colour, with a bold code of up to three letters, like `TS`, `PY` or `GO`.
+- **Symbols replace letters** where they read better at 16px: `{ }` for JSON, a branch for Git, a padlock for lockfiles, a box for `package.json`, a key for `.env` and a plane for `.vsix`.
+- **Folders get their own colour and badge**, including `src`, `node_modules`, `.vscode`, `images`, `tests` and `docs`. Build folders like `out` and `dist` carry a departing plane, and the workspace root is Rondelle red.
+
+**Product icons: "Air Canada Aviation".** Pick them with *Preferences: Product Icon Theme*. The workbench gets aviation glyphs: a luggage-tag Explorer, radar Search, route-map Source Control, airliner Run & Debug, control-tower Remote, runway Terminal and a fasten-seatbelt sign for notifications.
 
 ---
 

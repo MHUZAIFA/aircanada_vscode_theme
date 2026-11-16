@@ -2,7 +2,7 @@
   "name": "air-canada-flight-deck-theme",
   "displayName": "Air Canada Flight Deck",
   "description": "VS Code colour themes, aviation product/file icons, a status-bar flight timer and cockpit-style notifications for Air Canada employees.",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "publisher": "mhuzaifa",
   "author": {
     "name": "MHUZAIFA",
@@ -78,7 +78,7 @@
     "iconThemes": [
       {
         "id": "air-canada-aviation-file-icons",
-        "label": "Air Canada Aviation (Boarding Pass)",
+        "label": "Air Canada Aviation (Luggage Tags)",
         "path": "./icons/files/air-canada-file-icons.json"
       }
     ],

@@ -1,15 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <defs>
-    <mask id="notch">
-      <rect width="32" height="32" fill="#fff"/>
-      <circle cx="8" cy="7" r="2.1" fill="#000"/>
-      <circle cx="8" cy="25" r="2.1" fill="#000"/>
-    </mask>
-  </defs>
-  <g mask="url(#notch)">
-    <rect x="1" y="7" width="30" height="18" rx="3" fill="#E6E8EC"/>
-    <path d="M1 10a3 3 0 0 1 3-3h4v18H4a3 3 0 0 1-3-3z" fill="#5FD3E8"/>
-  </g>
-  <path d="M8 9.5v13" stroke="#1A1C20" stroke-opacity=".35" stroke-width="1" stroke-dasharray="1.5 1.5"/>
-  <text x="19.6" y="19.6" text-anchor="middle" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="8.2" font-weight="700" letter-spacing="-0.2" fill="#1A1C20">SQL</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><mask id="h"><rect width="32" height="32" fill="#fff"/><circle cx="6.6" cy="16" r="1.9" fill="#000"/></mask></defs><path mask="url(#h)" fill="#5FD3E8" d="M9 5.5h19a2.5 2.5 0 0 1 2.5 2.5v16a2.5 2.5 0 0 1-2.5 2.5H9L2 19.6v-7.2z"/><g transform="translate(18.6 16)"><g fill="none" stroke="#15171B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="0" cy="-4.6" rx="6" ry="2.4"/><path d="M-6 -4.6v9.2c0 1.3 2.7 2.4 6 2.4s6-1.1 6-2.4v-9.2M-6 0c0 1.3 2.7 2.4 6 2.4S6 1.3 6 0"/></g></g></svg>

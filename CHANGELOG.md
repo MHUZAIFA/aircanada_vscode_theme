@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.4 — 2026-11-15
+
+- **New file icons, "Air Canada Aviation (Luggage Tags)".** Every file is a luggage tag in its language's colour, with a bold code of up to three letters or a symbol that reads at 16 px: `{ }` for JSON, a branch for Git, a lock for lockfiles, a box for package manifests, a key for `.env`, a plane for `.vsix`.
+- **Folder icons** are real folder shapes. 15 kinds of common folders (54 names) get their own colour and badge: `src`, `node_modules`, `.vscode`, `.git`, `images`, `public`, `scripts`, `out`/`dist`, `test`, `docs` and more. Build output folders carry a departing plane, and the workspace root is Rondelle red.
+
 ## 0.3.3 — 2026-11-15
 
 - At Gate card: smaller block-time picker, Board button and stats; the card is now only as tall as its content.
