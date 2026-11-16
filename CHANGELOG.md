@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.3 — 2026-11-15
+
+- At Gate card: smaller block-time picker, Board button and stats; the card is now only as tall as its content.
+- Flight Plan: smaller task text, input, checkboxes and row height.
+- Flight Plan: long task names wrap up to three lines; hover a task to see its full name.
+- Meetings: shorter, smaller empty message.
+- README: new screenshots, and the meetings notification shown in place of the fly-by panel.
+
 ## 0.3.2 — 2026-11-15
 
 - Streamlined README with screenshots, Marketplace badges and install steps.

@@ -203,6 +203,9 @@ function html(cspSource: string): string {
   .stack { display: grid; }
   .layout { grid-area: 1 / 1; display: flex; flex-direction: column; gap: 10px; opacity: 0; transform: translateY(14px); visibility: hidden; pointer-events: none; transition: transform .3s var(--ease), opacity .24s ease, visibility 0s linear .3s; }
   .layout.active { opacity: 1; transform: none; visibility: visible; pointer-events: auto; transition-delay: 0s; }
+  /* Hidden layouts don't take up room, so each card is only as tall as its own content. */
+  .stack { position: relative; }
+  .layout:not(.active) { position: absolute; top: 0; left: 0; right: 0; }
 
   .top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   .status { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; background: color-mix(in srgb, var(--green) 16%, transparent); color: var(--green); }
@@ -265,21 +268,21 @@ function html(cspSource: string): string {
 
   /* gate */
   .seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 4px; border-radius: 11px; background: var(--panel-2); }
-  .seg button { border: 0; border-radius: 8px; padding: 8px 4px; background: transparent; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: background .12s, color .12s; }
-  .seg button b { font-family: var(--display); font-size: 17px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
-  .seg button small { font-size: 8.5px; color: var(--dim); letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+  .seg button { border: 0; border-radius: 8px; padding: 6px 2px; background: transparent; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: background .12s, color .12s; }
+  .seg button b { font-family: var(--display); font-size: 14px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+  .seg button small { font-size: 7.5px; white-space: nowrap; color: var(--dim); letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
   .seg button:hover { background: color-mix(in srgb, var(--vscode-foreground) 10%, transparent); }
   .seg button.on { background: var(--red); color: #fff; }
   .seg button.on small { color: rgba(255,255,255,.8); }
-  .seg input { width: 100%; text-align: center; border: 0; background: transparent; color: inherit; font-family: var(--display); font-size: 17px; font-weight: 700; padding: 0; outline: 0; }
+  .seg input { width: 100%; text-align: center; border: 0; background: transparent; color: inherit; font-family: var(--display); font-size: 14px; font-weight: 700; line-height: 1; padding: 0; outline: 0; }
   .seg input::-webkit-inner-spin-button, .seg input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
   .seg input { -moz-appearance: textfield; appearance: textfield; }
-  .seg input::placeholder { color: var(--dim); font-family: var(--sans); font-weight: 600; font-size: 10px; letter-spacing: .08em; }
-  .board { height: 42px; font-size: 12.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .seg input::placeholder { color: var(--dim); font-family: var(--sans); font-weight: 600; font-size: 8.5px; letter-spacing: .08em; }
+  .board { flex: none; height: 36px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-  .stat { background: var(--panel-2); border-radius: 10px; padding: 8px 10px; }
-  .stat b { display: block; font-family: var(--display); font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
-  .stat span { font-size: 9px; color: var(--dim); text-transform: uppercase; letter-spacing: .12em; font-weight: 600; }
+  .stat { min-width: 0; background: var(--panel-2); border-radius: 9px; padding: 7px 9px; }
+  .stat b { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--display); font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .stat span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 7.5px; color: var(--dim); text-transform: uppercase; letter-spacing: .1em; font-weight: 600; }
   .hint { font-size: 11px; color: var(--dim); line-height: 1.5; }
   .link { color: var(--cyan); cursor: pointer; }
   .link:hover { text-decoration: underline; }
@@ -330,6 +333,21 @@ function html(cspSource: string): string {
   .check:checked::before { transform: scale(1); }
   .item.done .title { text-decoration: line-through; text-decoration-thickness: 1.5px; text-decoration-color: var(--dim); color: var(--dim); }
   .item.done .meta { color: var(--green); }
+  /* Flight Plan: compact text */
+  #panel-plan .add input { font-size: 11.5px; padding: 6px 9px; }
+  #panel-plan .item { padding: 5px 6px 5px 9px; gap: 7px; }
+  #panel-plan .item .title { font-size: 11.5px; }
+  #panel-plan .item .meta { font-size: 9.5px; }
+  #panel-plan .check { width: 14px; height: 14px; border-radius: 4px; }
+  #panel-plan .check::before { width: 8px; height: 8px; }
+  #panel-plan .item .actions .iconbtn { width: 20px; height: 20px; }
+  #panel-plan .item .actions .iconbtn svg { width: 11px; height: 11px; }
+  /* Long task names wrap; checkbox, label and buttons line up with the first line. */
+  #panel-plan .item { align-items: start; }
+  #panel-plan .item .title { white-space: normal; overflow-wrap: anywhere; line-height: 1.4; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+  #panel-plan .check { margin-top: 1px; }
+  #panel-plan .item .meta { line-height: 16px; }
+  #panel-plan .item .actions { margin-top: -2px; }
   .time { font-family: var(--mono); font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums; padding: 3px 7px; border-radius: 6px; background: var(--panel-2); color: var(--cyan); }
   .item.live .time { background: var(--red); color: #fff; }
   .item.past .time { color: var(--dim); }
@@ -356,7 +374,7 @@ function html(cspSource: string): string {
   .in-actions { display: flex; gap: 6px; }
   .in-actions .btn { padding: 8px 10px; }
   .pill { font-size: 9.5px; padding: 1px 7px; border-radius: 999px; background: var(--panel-2); letter-spacing: .04em; }
-  .empty { color: var(--dim); font-size: 11.5px; padding: 6px 4px 4px; line-height: 1.5; }
+  .empty { color: var(--dim); font-size: 10.5px; padding: 4px 4px 2px; line-height: 1.4; }
   .foot { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; color: var(--dim); padding: 2px 4px 0; }
 </style>
 </head>
@@ -499,7 +517,7 @@ function html(cspSource: string): string {
         </div>
       </div>
       <ul class="list" id="meetings"></ul>
-      <div class="empty" id="meet-empty" hidden>No reminders. Add one and the plane flies by 5 minutes before it starts — no calendar account needed.</div>
+      <div class="empty" id="meet-empty" hidden>No meetings yet.</div>
       <div class="foot" id="meet-foot" hidden><span></span><span class="link" data-cmd="meeting.clearPast">Clear past</span></div>
     </div></div></div>
   </section>
@@ -610,7 +628,7 @@ function html(cspSource: string): string {
     $('tasks').innerHTML = tasks.map(t => \`
       <li class="item \${t.done ? 'done' : ''}" data-id="\${t.id}">
         <input class="check" type="checkbox" \${t.done ? 'checked' : ''} data-act="task.toggle" aria-label="done">
-        <span class="title" data-act="task.edit" title="Click to edit">\${esc(t.title)}</span>
+        <span class="title" data-act="task.edit" title="\${esc(t.title)} (click to edit)">\${esc(t.title)}</span>
         <span class="actions">
           <span class="meta">\${t.done ? 'landed' : rel(t.createdAt, now)}</span>
           <button class="iconbtn" data-act="task.edit" title="Edit">\${I_EDIT}</button>

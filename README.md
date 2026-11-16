@@ -11,7 +11,7 @@
 
 Three colour themes in the 2017 livery · aviation icons · a focus timer that flies · a flight plan for your tasks · meeting reminders that arrive by plane
 
-<img src="images/screenshots/hero-en-route.png" alt="VS Code with the Air Canada Flight Deck theme: a flight en route from YUL to YYZ in the sidebar and the status bar" />
+<img src="images/screenshots/workspace-at-gate.png" alt="VS Code with the Air Canada Flight Deck theme: the At Gate card, Flight Plan and Meetings in the sidebar" />
 
 *"This is your captain speaking. Welcome aboard, service from **it works on my machine** to **production**. Please fasten your seatbelt and enjoy the focus."*
 
@@ -86,22 +86,26 @@ Your flight follows you in the status bar. Click it to open the Flight Deck, or 
 
 <img src="images/screenshots/flight-plan.png" width="420" alt="Flight Plan panel with one open task and one landed task" />
 
-A to-do list for each workspace. Type a task and press Enter. Tick it off when it has *landed*. Tasks stay in VS Code's storage, never in your repository.
+A to-do list for each workspace. Type a task and press Enter, and tick it off when it has *landed*. Long names wrap to three lines, and hovering shows the full name. Tasks stay in VS Code's storage, never in your repository.
 
 ### 🛬 Meetings, arriving by plane
 
-Add a meeting with a title, a time such as `14:30`, `in 20` or `tomorrow 09:00`, a length, and an optional Teams, Zoom or Meet link. There's no calendar sync or sign-in, and nothing leaves your machine.
+Press **+** in the Meetings panel and answer four questions: the title, the time (such as `14:30`, `in 20` or `tomorrow 09:00`), the length, and an optional Teams, Zoom or Meet link or a note. There's no calendar sync or sign-in, and nothing leaves your machine.
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-<img src="images/screenshots/incoming-meeting.png" alt="Incoming meeting card with a red plane countdown track, title, time, platform, notes and Join, Snooze and Dismiss buttons" />
+<img src="images/screenshots/incoming-meeting.png" alt="Meetings panel with the incoming card: red plane countdown track, title, time, platform, notes and Join, Snooze 2 min and Dismiss buttons" />
+
+*The incoming card in the Meetings panel*
 
 </td>
 <td width="50%" valign="top">
 
-<img src="images/screenshots/flyby.png" alt="Fly-by panel: meeting card under a starry sky with runway lights" />
+<img src="images/screenshots/notification.png" alt="VS Code notification: Incoming Crew briefing in 5 min, with Join and Snooze 2 min buttons" />
+
+*The VS Code notification*
 
 </td>
 </tr>
@@ -109,12 +113,12 @@ Add a meeting with a title, a time such as `14:30`, `in 20` or `tomorrow 09:00`,
 
 Five minutes before it starts:
 
-- **Incoming card.** A red plane counts down at the top of Meetings, with **Join**, **Snooze 2 min** and **Dismiss**.
+- **Incoming card.** It appears at the top of Meetings, with **Join**, **Snooze 2 min** and **Dismiss**. A red plane flies the track and the seconds count down until the card closes itself.
 - **Notification.** A VS Code notification with **Join** and **Snooze**.
 - **Fly-by.** An airliner in the 2017 livery tows your meeting across a night sky beside the editor.
 - **Status bar.** A ✈ taxis past with the summary. Click it to join.
 
-Press the play button on a meeting to preview its alert.
+**Previewing.** Press the play button on a meeting to preview it, or the one in the Meetings header for a demo meeting. A preview shows the incoming card and the notification, without the fly-by.
 
 ### 🧑‍✈️ Cabin announcements
 
@@ -129,7 +133,7 @@ Press the play button on a meeting to preview its alert.
 
 ## 💺 The livery
 
-<img src="images/screenshots/workspace-at-gate.png" alt="Air Canada Flight Deck dark theme with the At Gate card, Flight Plan and Meetings panels" />
+<img src="images/screenshots/hero-en-route.png" alt="Air Canada Flight Deck dark theme with a flight en route from YUL to YYZ in the sidebar and the status bar" />
 
 | Theme | Inspired by |
 | --- | --- |
