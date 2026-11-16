@@ -12,3 +12,4 @@ out/**/*.map
 *.vsix
 .DS_Store
 releases/**
+images/screenshots/**

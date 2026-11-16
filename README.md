@@ -1,191 +1,240 @@
+<div align="center">
+
+<img src="images/icon.png" width="96" alt="Air Canada Flight Deck icon" />
+
 # Air Canada Flight Deck
 
-A VS Code extension built for Air Canada employees: three colour themes, aviation product and file icons, a coding-session timer rendered as a flight, a per-workspace task checklist, manual meeting reminders with an animated plane fly-by, and cockpit-style notifications. The palette comes from the 2017 livery — black tail and underbelly, white upper fuselage, Rondelle red — and syntax colours follow the conventions pilots already read every day on EFIS / navigation displays.
+**Your editor, cleared for takeoff.**
 
-> **Not an official Air Canada product.** This is an employee-made theme for internal use. The extension icon is the official Air Canada Rondelle, taken from the public 2017 logo file, and the palette is sampled from the same file. See [Trademarks](#trademarks) before distributing it outside the company.
+Colour themes in the 2017 livery · aviation icons · a focus timer that flies · a flight plan for your tasks · meeting reminders that arrive by plane
 
-**[⬇ Download the latest .vsix](https://github.com/MHUZAIFA/aircanada_vscode_theme/raw/main/releases/air-canada-flight-deck-theme.vsix)** · then follow [Install](#install).
+**[⬇ Download the latest .vsix](https://github.com/MHUZAIFA/aircanada_vscode_theme/raw/main/releases/air-canada-flight-deck-theme.vsix)** · [Boarding instructions](#-boarding-install) · [What's on board](#-whats-on-board)
 
-## Fleet (theme variants)
+<img src="images/screenshots/hero-en-route.png" alt="VS Code with the Air Canada Flight Deck theme: a flight en route from YUL to YYZ in the sidebar and the status bar" />
 
-| Theme | Type | Inspired by |
-| --- | --- | --- |
-| **Air Canada Flight Deck** | Dark | Night cockpit. Black activity bar, near-black editor, Rondelle-red status bar. |
-| **Air Canada Signature Light** | Light | White upper fuselage with black tail. Red accents, black status bar. |
-| **Air Canada Rouge** | Dark | Rouge sub-brand. Burgundy base (`#A20B31`), bright Rouge red (`#ED1C24`) accents. |
+</div>
 
-## Brand palette
+> 🎙️ *"Good morning, this is your captain speaking. Welcome aboard Flight Deck, service from **"it works on my machine"** to **production**. Our flight time today is 25 minutes. Please stow your notifications, fasten your seatbelt, and enjoy the focus."*
 
-Hex values are sampled directly from the official public logo files (Wikimedia Commons: *Air Canada 2017.svg*, *Air Canada Rouge logo.svg*), not from third-party palette sites.
+> **Not an official Air Canada product.** This is an employee-made extension for internal use. The extension icon is the official Air Canada Rondelle, taken from the public 2017 logo file, and the palette is sampled from the same file. See [Trademarks](#%EF%B8%8F-trademarks) before distributing it outside the company.
 
-| Role | Hex | Source |
-| --- | --- | --- |
-| Air Canada red | `#F01428` | Rondelle fill, 2017 logo |
-| Charcoal | `#2E2A25` | "AIR CANADA" wordmark, 2017 logo |
-| Black | `#000000` | Tail, underbelly, engine nacelles (livery) |
-| White | `#FFFFFF` | Upper fuselage (livery) |
-| Rouge burgundy | `#A20B31` | "rouge" script, Rouge logo |
-| Rouge red | `#ED1C24` | "AIR CANADA" + Rondelle, Rouge logo |
+---
 
-## Cockpit colour conventions → syntax
+## 🎫 Boarding pass
 
-Electronic flight displays use a fixed colour grammar so that a glance tells you what a symbol *means*. The theme maps that grammar onto code:
-
-| EFIS meaning | Colour | In the editor |
-| --- | --- | --- |
-| **Magenta** — FMS-managed route, the plan the aircraft follows | `#E07AC8` | Keywords, control flow, decorators |
-| **Cyan** — live data, sky | `#5FD3E8` | Strings, regex, links |
-| **Green** — engaged mode, go | `#7FD88F` | Functions, methods, git additions |
-| **Amber** — caution | `#F2B544` | Numbers, constants, warnings, modified files |
-| **Red** — warning / Rondelle | `#F01428` | Errors, HTML tags, accents, cursor |
-| **White** — armed mode | `#F3F4F6` | Types, classes, headings |
-
-Other cues:
-
-- **Bracket pairs** cycle red → amber → cyan → magenta → green → blue, like an approach lighting system.
-- **Active line number** lights up Rondelle red, like the heading bug on an HSI.
-- **Git gutter**: green added / amber modified / red deleted — same as a CAS/EICAS message hierarchy.
-- **Terminal ANSI** colours match the same six-colour grammar so `ls --color`, test runners and CI output all read the same way.
-
-## Coding-session timer ("flight")
-
-The status bar carries a session timer drawn as a flight:
-
-```text
-YYZ ───✈······ YVR  32:10
-```
-
-- **Hover** the item for a static card with quick actions: at the gate, *Board 25 / 50 / 90 / Custom*; in flight, extend chips **+5 +10 +15 +30 +1 h Custom**, **Pause / Resume**, **Cancel**. (Hover open delay is VS Code's `workbench.hover.delay`; 150 ms feels instant.)
-- **Click** the item to open the **Flight Deck** view.
-- The ✈ taxis from origin to destination as time passes. On arrival: *Landed* notification with **Return flight** (swaps the route) or **New flight**.
-- Commands (⌘⇧P → "Air Canada"): **Board Flight**, **Pause**, **Resume**, **Extend Flight by…**, **Cancel Flight**, **Return Flight**, **Set Flight Route**, **Set Default Session Length**, **Open Flight Deck**.
-
-### Flight Deck view
-
-The plane icon in the activity bar opens the **Flight Deck**: one scrolling view with the flight card on top and two collapsible panels below it, **Flight Plan** and **Meetings**. The activity-bar badge counts open tasks.
-
-The flight card has three layouts that slide in:
-
-- **At gate**
-  - Departure and arrival codes. Click either one to change just that airport.
-  - Between them, the departure time (now) and estimated arrival for the block time you've picked. It updates as you change the selection.
-  - Block-time picker: **25** Short hop · **50** Domestic · **90** International · **Custom** minutes.
-  - **Board flight**, then today's flights, focus time and your last flight.
-- **En route** — large time remaining and the plane flying a route arc, with the flown part in red. Below that: nautical miles flown and to go, elapsed of block, ETA and a progress bar. Then the controls: extend chips **+5 +10 +15 +30 +1 h …**, **Pause/Resume** and **Cancel**. Only the numbers and the plane move each second, so the layout never flickers.
-- **Landed** — destination, block length, **Return flight** / **New flight** and today's totals.
-
-**Aircraft type** — `airCanada.flight.aircraft`, default *Boeing 777-300ER*; 16 types to pick from (777-200LR, 787-8/-9, A330-300, A321neo, A320, A220-300, 737 MAX 8, E175, CRJ900, Dash 8-400, A380, 747-400, A350-1000).
-
-| Setting | Default | |
-| --- | --- | --- |
-| `airCanada.flight.enabled` | `true` | Show the timer |
-| `airCanada.flight.durationMinutes` | `50` | Default session length, 1–600 |
-| `airCanada.flight.origin` / `destination` | `YYZ` / `YVR` | Airport codes |
-| `airCanada.flight.autoStart` | `false` | Board on startup with the default length |
-| `airCanada.flight.aircraft` | `Boeing 777-300ER` | Aircraft type shown on the deck and hover |
-
-## Flight Plan (task checklist)
-
-The **Flight Plan** panel is a lightweight per-workspace to-do list:
-
-- Type in the box and press Enter to add; click a task's text to rename it; hover for edit / remove.
-- Tick the checkbox when a task has landed. It turns muted grey, is struck through, is marked *landed* in green and drops below the open ones.
-- The activity-bar badge and the panel's badge count open tasks.
-- **Clear landed** removes finished ones; **Clear Flight Plan** (view menu) empties the list (both confirm first).
-
-Tasks live in VS Code's workspace storage (per opened folder), or global storage when no folder is open. Nothing is written into the repository.
-
-## Meetings (manual reminders + fly-by)
-
-The **Meetings** panel holds reminders you type in yourself. There is deliberately **no calendar sync** and no account sign-in.
-
-- **+ Add meeting** asks four things: title · time (`14:30`, `2:30pm`, `in 20`, `+45`, `tomorrow 09:00`) · length in minutes · an optional Teams/Zoom/Meet link or a note.
-- **5 minutes before** it starts (`airCanada.meetings.leadMinutes`), four things happen at once:
-  1. An **incoming card** appears at the top of the Meetings panel. A red plane flies a straight track while the card is up, with the trail behind it in red and the seconds left beside it. Below that are the title, start time and time span, the platform, your note, and **Join**, **Snooze 2 min** and **Dismiss**. It closes itself after 20 s.
-  2. A VS Code **notification** in the bottom-right corner with **Join** and **Snooze 2 min**.
-  3. A panel opens beside the editor: night sky, runway lights, and an airliner in the **2017 Air Canada livery** towing the meeting card.
-  4. A ✈ taxis across the status bar carrying the one-line summary. Click it to join.
-- **Preview** (the play icon on a reminder, or in the panel header for a demo meeting) shows the incoming card and the notification only, without the full-screen panel.
-- Click a reminder to rename, re-time or change its link. Hover for inline Join / Preview / Remove. **Clear past** tidies up, and reminders older than 12 h are pruned automatically.
-
-| Setting | Default | |
-| --- | --- | --- |
-| `airCanada.meetings.leadMinutes` | `5` | Minutes before start |
-| `airCanada.meetings.flyby.enabled` | `true` | Animated panel |
-| `airCanada.meetings.flyby.durationSeconds` | `20` | How long the panel and the incoming card stay up |
-| `airCanada.meetings.statusBarFlyby` | `true` | Status-bar plane |
-| `airCanada.meetings.notification` | `true` | Notification with buttons |
-
-Reminders are stored in VS Code global storage on your machine only.
-
-## Cockpit announcements
-
-| Event | Message |
+| | |
 | --- | --- |
-| Workspace opens | *✈ Boarding complete — welcome aboard. Flight `main` is ready for departure.* |
-| Task exits 0 | *✈ Wheels up — "build" completed* (status bar, 6 s) |
-| Task fails | *✈ Go-around — "test" exited with code 1* → **Show Problems** / **Show Terminal** |
-| Debug session starts / ends | *✈ Cleared for takeoff* / *✈ Landed* (status bar) |
+| **Passenger** | You, and your code |
+| **Flight** | AC-VSC 031 |
+| **Aircraft** | Boeing 777-300ER (or 15 other types, your pick) |
+| **From** | Your backlog |
+| **To** | Done |
+| **Gate** | The activity bar ✈ |
+| **Seat** | 1A, by the minimap |
+| **Boarding group** | Everyone. Priority boarding for people with failing tests |
 
-Toggles: `airCanada.notifications.enabled`, `.welcome`, `.tasks`, `.debug`.
+---
 
-## Aviation icons
+## 🧳 Boarding (install)
 
-Two optional icon sets, independent of the colour theme:
+No Marketplace queue. Grab the file straight from GitHub.
 
-**Product icons — "Air Canada Aviation"** (*Preferences: Product Icon Theme*)
-Explorer → luggage tag · Search → radar sweep · Source Control → air-route network · Run & Debug → airliner · Extensions → cockpit gauge · Accounts → pilot wings · Settings → turbine · Remote → control tower · Terminal → runway · Notifications → fasten-seatbelt sign · Run → takeoff · Branch → diverging route · Home → terminal building. Unlisted glyphs fall back to the default codicons.
+1. **Download** [air-canada-flight-deck-theme.vsix](https://github.com/MHUZAIFA/aircanada_vscode_theme/raw/main/releases/air-canada-flight-deck-theme.vsix). You can also open the [`releases`](releases) folder and click **Download raw file**.
+2. **Open the Extensions view** in VS Code: `Cmd+Shift+X` on macOS, `Ctrl+Shift+X` on Windows and Linux.
+3. **Click the `···` menu** at the top of the Extensions view and choose **Install from VSIX…**
+4. **Pick the file** you downloaded. VS Code says *Completed installing extension* when you're on board.
+5. **Reload:** run **Developer: Reload Window** from the Command Palette (`Cmd/Ctrl+Shift+P`).
+6. **Choose your cabin:** **Preferences: Color Theme** (`Cmd/Ctrl+K`, then `Cmd/Ctrl+T`), then *Air Canada Flight Deck*, *Signature Light* or *Rouge*.
+7. **Optional upgrade:** **Preferences: File Icon Theme** and **Preferences: Product Icon Theme**, then *Air Canada Aviation*.
 
-**File icons — "Air Canada Aviation (Boarding Pass)"** (*Preferences: File Icon Theme*)
-Every file is a boarding pass: white body, stub coloured by language (EFIS palette), and an airline-style code — `TS`, `PY`, `MD`, `JSON`, `DKR`, `ENV`, `LOCK`… Folders are hangars (door opens when expanded); the workspace root is a control tower. 37 languages, 89 extensions, 50 special file names.
-
-Both sets are generated: `scripts/build-product-icons.js` (SVG → WOFF via fantasticon) and `scripts/build-file-icons.js` (table → SVGs + theme JSON). Add a language with one line.
-
-## Pre-flight checklist (walkthrough)
-
-**Help → Get Started → Pre-flight checklist** (or command *Air Canada: Open Pre-flight Checklist*) walks a new hire through theme, icons, recommended settings and the first flight.
-
-## Install
-
-### Download from GitHub (easiest)
-
-1. Download **[air-canada-flight-deck-theme.vsix](https://github.com/MHUZAIFA/aircanada_vscode_theme/raw/main/releases/air-canada-flight-deck-theme.vsix)**. You can also open the [`releases`](releases) folder and click **Download raw file**.
-2. Open VS Code and go to the **Extensions** view (`Cmd+Shift+X` on macOS, `Ctrl+Shift+X` on Windows/Linux).
-3. Click the **`···`** menu at the top of the Extensions view and choose **Install from VSIX…**
-4. Pick the file you downloaded. VS Code shows *Completed installing extension* when it's done.
-5. Run **Developer: Reload Window** from the Command Palette (`Cmd/Ctrl+Shift+P`).
-6. Pick a theme: **Preferences: Color Theme** (`Cmd/Ctrl+K`, then `Cmd/Ctrl+T`) → *Air Canada Flight Deck*, *Signature Light* or *Rouge*.
-7. Optional: **Preferences: File Icon Theme** and **Preferences: Product Icon Theme** → *Air Canada Aviation*.
-
-Prefer the terminal? After downloading:
+Prefer the jet bridge? Install from the terminal after downloading:
 
 ```bash
 code --install-extension air-canada-flight-deck-theme.vsix
 ```
 
-**Updating:** download the file again and repeat steps 3–5. VS Code replaces the old version.
+- **Updating:** download the file again and repeat steps 3 to 5. VS Code replaces the old version.
+- **Deplaning:** Extensions view, then *Air Canada Flight Deck*, then **Uninstall**. No hard feelings.
 
-**Uninstalling:** Extensions view → *Air Canada Flight Deck* → **Uninstall**.
+---
 
-### From source
+## 🛫 What's on board
 
-```bash
-git clone https://github.com/MHUZAIFA/aircanada_vscode_theme.git
-cd aircanada_vscode_theme
-npm install
-npm run build        # themes + file icons + product icon font + TypeScript
-npm run package      # produces the .vsix in the project folder
+### The Flight Deck
+
+Click the ✈ in the activity bar to open the Flight Deck: one scrolling cockpit with your flight on top, and two collapsible panels below it, **Flight Plan** and **Meetings**.
+
+#### At the gate
+
+<img src="images/screenshots/gate-card.png" width="420" align="right" alt="At gate card: YUL to YYZ, departure and arrival times, block time picker and Board Flight button" />
+
+- **Route.** Click **Departure** or **Arrival** to change just that airport code.
+- **Schedule.** Between the airports you see the departure time (now) and estimated arrival for the block you've picked. It updates live as you change your mind.
+- **Block time.** **25** Short hop · **50** Domestic · **90** International · **Custom** minutes.
+- **Board flight** and you're off.
+- **Logbook.** Today's flights, total focus time and where your last flight landed.
+
+<br clear="right" />
+
+#### En route
+
+<img src="images/screenshots/en-route-card.png" width="420" align="right" alt="En route card: 24 minutes remaining, plane on a route arc from YUL to YYZ, distance flown and to go, ETA, extend chips, Pause and Cancel" />
+
+- **Big clock.** Time remaining, readable from row 40.
+- **The route.** The plane flies an arc from origin to destination, with the flown leg in red.
+- **Instruments.** Nautical miles flown and to go, elapsed of block, and your ETA.
+- **Holding pattern?** Extend with **+5 +10 +15 +30 +1 h** or a custom amount.
+- **Pause** for coffee, **Cancel** if the weather turns.
+
+Only the numbers and the plane move each second, so the cockpit never flickers.
+
+<br clear="right" />
+
+#### Landed
+
+Wheels down. You get the destination, your block length, today's totals, and two buttons: **Return flight** swaps the route for the trip home, **New flight** gets you back in the air.
+
+### 📟 Status bar
+
+The flight follows you everywhere in the status bar:
+
+```text
+YUL ───✈······ YYZ  01:29
 ```
 
-Or press `F5` with the folder open in VS Code to launch an Extension Development Host with the theme loaded.
+<img src="images/screenshots/status-hover.png" width="420" alt="Status bar hover after landing at YUL, with Return flight, New flight and Flight deck buttons" />
 
-### Publishing a new downloadable build (maintainers)
+- **Hover** for a quick-action card. At the gate you can board 25, 50, 90 or a custom block. In flight you get the extend chips, **Pause / Resume** and **Cancel**. After landing you get **Return flight** and **New flight**.
+- **Click** to open the Flight Deck.
+- Hover feeling sluggish? Lower `workbench.hover.delay`. 150 ms feels instant.
 
-1. Bump `version` in `package.json` and add a `CHANGELOG.md` entry.
-2. Run `npm run release`. It builds everything and writes `releases/air-canada-flight-deck-theme.vsix`.
-3. Commit and push. The download link above always serves the newest file.
+### 📋 Flight Plan (tasks)
 
-## Recommended settings
+<img src="images/screenshots/flight-plan.png" width="420" alt="Flight Plan panel with one open task and one landed task" />
+
+A lightweight to-do list for each workspace.
+
+- **Add** a task in the box and press Enter.
+- **Rename** a task by clicking its text. Hover for edit and remove.
+- **Land it** with the checkbox. It turns muted grey, is struck through, is marked *landed* in green and moves below the open ones.
+- **Badges** on the activity bar and the panel count open tasks.
+- **Clear landed** removes finished tasks. **Clear Flight Plan** in the view menu empties the list. Both ask first.
+
+Tasks live in VS Code's workspace storage, never in your repository.
+
+### 📅 Meetings (arriving by plane)
+
+Reminders you type in yourself. There's deliberately **no calendar sync** and no sign-in. Nothing leaves your machine.
+
+**+ Add meeting** asks four things:
+- the title
+- the time, like `14:30`, `2:30pm`, `in 20`, `+45` or `tomorrow 09:00`
+- the length in minutes
+- an optional Teams, Zoom or Meet link, or a note
+
+**Five minutes before** it starts, four things happen at once.
+
+<img src="images/screenshots/incoming-meeting.png" width="420" align="right" alt="Incoming meeting card with a red plane countdown track, title, time, platform, notes and Join, Snooze and Dismiss buttons" />
+
+1. **Incoming card.** It appears at the top of the Meetings panel, with a red plane flying a straight track while the card is up. The card has the title, time, platform, your note and **Join**, **Snooze 2 min** and **Dismiss**. It closes itself after 20 seconds.
+2. **Notification.** A VS Code notification pops up bottom right with **Join** and **Snooze 2 min**.
+3. **Fly-by.** A panel opens beside the editor with a night sky and runway lights. An airliner in the 2017 livery tows your meeting card across it.
+4. **Taxiing plane.** A ✈ taxis across the status bar with a one-line summary. Click it to join.
+
+<br clear="right" />
+
+<img src="images/screenshots/flyby.png" width="360" align="right" alt="Fly-by panel: incoming meeting card under a starry sky with runway lights" />
+
+- **Preview** a reminder with its play button, or press play in the panel header for a demo meeting. A preview shows the incoming card and the notification without the full fly-by.
+- **Edit** a reminder by clicking it. Hover for Join, Preview and Remove.
+- **Clear past** tidies up. Reminders older than 12 hours are cleared automatically.
+
+<br clear="right" />
+
+### 📢 Cabin announcements
+
+| When | You'll hear |
+| --- | --- |
+| Workspace opens | *✈ Boarding complete. Welcome aboard. Flight `main` is ready for departure.* |
+| A task succeeds | *✈ Wheels up. "build" completed* |
+| A task fails | *✈ Go-around. "test" exited with code 1*, with **Show Problems** and **Show Terminal** |
+| Debugging starts or stops | *✈ Cleared for takeoff* / *✈ Landed* |
+
+---
+
+## 🎨 The livery (colour themes)
+
+<img src="images/screenshots/workspace-at-gate.png" alt="Air Canada Flight Deck dark theme with the At Gate card, Flight Plan and Meetings panels" />
+
+| Theme | Cabin | Inspired by |
+| --- | --- | --- |
+| **Air Canada Flight Deck** | Dark | A night cockpit. Black activity bar, near-black editor, Rondelle-red status bar. |
+| **Air Canada Signature Light** | Light | The white upper fuselage and black tail. Red accents, black status bar. |
+| **Air Canada Rouge** | Dark | The Rouge sub-brand. Burgundy base, bright Rouge red accents. |
+
+### Paint shop
+
+Every hex value is sampled from the official public logo files (Wikimedia Commons: *Air Canada 2017.svg*, *Air Canada Rouge logo.svg*), not from palette sites.
+
+| Role | Hex | Source |
+| --- | --- | --- |
+| Air Canada red | `#F01428` | Rondelle fill, 2017 logo |
+| Charcoal | `#2E2A25` | "AIR CANADA" wordmark, 2017 logo |
+| Black | `#000000` | Tail, underbelly, engine nacelles |
+| White | `#FFFFFF` | Upper fuselage |
+| Rouge burgundy | `#A20B31` | "rouge" script, Rouge logo |
+| Rouge red | `#ED1C24` | "AIR CANADA" and Rondelle, Rouge logo |
+
+### Read your code like a flight display
+
+Cockpit displays use a fixed colour language, so a glance tells a pilot what a symbol *means*. The syntax colours speak the same language.
+
+| On the flight display | Colour | In your editor |
+| --- | --- | --- |
+| **Magenta**, the planned route | `#E07AC8` | Keywords, control flow, decorators |
+| **Cyan**, live data and sky | `#5FD3E8` | Strings, regex, links |
+| **Green**, engaged, good to go | `#7FD88F` | Functions, methods, git additions |
+| **Amber**, caution | `#F2B544` | Numbers, constants, warnings, modified files |
+| **Red**, warning and the Rondelle | `#F01428` | Errors, HTML tags, accents, cursor |
+| **White**, armed | `#F3F4F6` | Types, classes, headings |
+
+More cockpit touches:
+
+- **Bracket pairs** cycle red, amber, cyan, magenta, green and blue, like approach lighting.
+- **The active line number** glows Rondelle red, like the heading bug on a compass display.
+- **The git gutter** uses green for added, amber for modified and red for deleted, the same order as cockpit alerts.
+- **Terminal colours** follow the same palette, so test runners and CI logs read the same way.
+
+---
+
+## 🛩️ Aviation icons
+
+Two optional icon sets that work with any colour theme.
+
+**Product icons, "Air Canada Aviation."** Pick them with *Preferences: Product Icon Theme*.
+
+| Workbench | Becomes |
+| --- | --- |
+| Explorer | Luggage tag |
+| Search | Radar sweep |
+| Source Control | Air-route network |
+| Run & Debug | Airliner |
+| Extensions | Cockpit gauge |
+| Accounts | Pilot wings |
+| Settings | Turbine |
+| Remote | Control tower |
+| Terminal | Runway |
+| Notifications | Fasten-seatbelt sign |
+
+**File icons, "Air Canada Aviation (Boarding Pass)."** Pick them with *Preferences: File Icon Theme*. Every file is a boarding pass with a stub coloured by language and an airline-style code like `TS`, `PY`, `MD`, `JSON` or `DKR`. Folders are hangars whose doors open when expanded, and the workspace root is a control tower. It covers 37 languages, 89 file extensions and 50 special file names.
+
+---
+
+## ✅ Pre-flight checklist
+
+New to the fleet? Open **Help → Get Started → Pre-flight checklist**, or run *Air Canada: Open Pre-flight Checklist*. It walks you through the theme, the icons, recommended settings and your first flight.
+
+Recommended settings for the full experience:
 
 ```jsonc
 {
@@ -196,53 +245,106 @@ Or press `F5` with the folder open in VS Code to launch an Extension Development
 }
 ```
 
-## Customising
+---
 
-All three colour variants are generated from one file: `scripts/build-themes.js`. Change a hex in the `variants` block, run `npm run build`, and every workbench and token colour updates. Don't edit `themes/*.json`, `icons/**/*.json` or `icons/**/svg/*` by hand — they're build output.
+## 🎛️ Cockpit settings
 
-## Project layout
+| Setting | Default | What it does |
+| --- | --- | --- |
+| `airCanada.flight.enabled` | `true` | Show the flight timer |
+| `airCanada.flight.durationMinutes` | `50` | Default block time, 1 to 600 minutes |
+| `airCanada.flight.origin` / `destination` | `YYZ` / `YVR` | Airport codes |
+| `airCanada.flight.autoStart` | `false` | Board automatically when VS Code starts |
+| `airCanada.flight.aircraft` | `Boeing 777-300ER` | Aircraft shown on the deck and hover |
+| `airCanada.meetings.leadMinutes` | `5` | Minutes of warning before a meeting |
+| `airCanada.meetings.flyby.enabled` | `true` | The fly-by panel |
+| `airCanada.meetings.flyby.durationSeconds` | `20` | How long the fly-by and the incoming card stay up |
+| `airCanada.meetings.statusBarFlyby` | `true` | The taxiing plane in the status bar |
+| `airCanada.meetings.notification` | `true` | The notification with Join and Snooze |
+| `airCanada.notifications.enabled` | `true` | All cabin announcements. Fine-tune with `.welcome`, `.tasks` and `.debug` |
+
+**Hangar of aircraft types:** Boeing 777-300ER, 777-200LR, 787-8, 787-9, 747-400, 737 MAX 8, Airbus A220-300, A320, A321, A321neo, A330-300, A350-1000, A380, Embraer E175, CRJ900 and Dash 8-400.
+
+---
+
+## 🔧 Maintenance hangar (for developers)
+
+### Build from source
+
+```bash
+git clone https://github.com/MHUZAIFA/aircanada_vscode_theme.git
+cd aircanada_vscode_theme
+npm install
+npm run build        # themes + file icons + product icon font + TypeScript
+npm run package      # produces a .vsix in the project folder
+```
+
+Or press `F5` with the folder open in VS Code to fly a test aircraft in an Extension Development Host.
+
+### Ship a new downloadable build
+
+1. Bump `version` in `package.json` and add a `CHANGELOG.md` entry.
+2. Run `npm run release`. It builds everything and writes `releases/air-canada-flight-deck-theme.vsix`.
+3. Commit and push. The download link at the top always serves the newest file.
+
+### Repaint the fleet
+
+All three colour themes are generated from one file, `scripts/build-themes.js`. Change a hex in its `variants` block and run `npm run build`. Don't edit `themes/*.json`, `icons/**/*.json` or `icons/**/svg/*` by hand, because they're build output.
+
+### Aircraft layout
 
 ```text
 aircanada_vscode_theme/
 ├── package.json                    # manifest: themes, icon themes, commands, settings, walkthrough
 ├── src/
 │   ├── extension.ts                # activate(): commands + wiring
-│   ├── flightTracker.ts            # status-bar coding-session timer (flight)
-│   ├── sessionView.ts              # "Flight Deck" webview: Flight / Plan / Meetings tabs
+│   ├── flightTracker.ts            # status-bar coding-session timer (the flight)
+│   ├── sessionView.ts              # Flight Deck webview: flight card, Flight Plan, Meetings
 │   ├── checklist.ts                # task checklist store + prompts
-│   ├── meetings.ts                 # manual meeting reminders store + scheduler
-│   ├── flyby.ts                    # animated fly-by webview + status-bar plane
+│   ├── meetings.ts                 # meeting reminders, scheduler, incoming card + notification
+│   ├── flyby.ts                    # animated fly-by panel + status-bar plane
 │   ├── notifications.ts            # boarding / wheels-up / go-around / debug announcements
 │   └── git.ts                      # current branch via built-in Git API
 ├── scripts/
 │   ├── build-themes.js             # single source of truth for colours → themes/*.json
 │   ├── build-file-icons.js         # boarding-pass table → icons/files/svg + theme JSON
 │   └── build-product-icons.js      # glyph SVGs → icons/product/dist/*.woff + theme JSON
-├── themes/                         # generated — three colour themes
-├── icons/files/                    # generated — file icon theme
-├── icons/product/                  # generated — product icon theme (font + JSON)
+├── themes/                         # generated: three colour themes
+├── icons/files/                    # generated: file icon theme
+├── icons/product/                  # generated: product icon theme (font + JSON)
 ├── media/walkthrough/              # pre-flight checklist pages
 ├── images/icon.svg|png             # official Rondelle on black (Air Canada trademark)
-├── samples/flight-plan.ts          # demo file for screenshots / QA
-├── releases/                       # latest .vsix, linked from the Install section
+├── images/screenshots/             # README screenshots (not packaged)
+├── releases/                       # latest .vsix, linked from the top of this README
+├── samples/flight-plan.ts          # demo file for screenshots and QA
 └── .vscode/launch.json             # F5 → Extension Development Host
 ```
 
-## Trademarks
+---
 
-"Air Canada", "Air Canada Rouge", "Air Canada Signature", and the Rondelle / maple-leaf marks are trademarks of Air Canada. This theme is an independent, employee-made project intended for internal use. The extension icon **does** use the official Rondelle (path geometry from the public 2017 logo file; the file is tagged public-domain on Wikimedia Commons for copyright purposes, but trademark rights are unaffected). Before distributing it outside the company — e.g. to the VS Code Marketplace — get Brand/Legal clearance for the name, colours and logo.
+## ⚖️ Trademarks
 
-## Author
+"Air Canada", "Air Canada Rouge", "Air Canada Signature" and the Rondelle / maple-leaf marks are trademarks of Air Canada. This is an independent, employee-made project for internal use. The extension icon **does** use the official Rondelle, with path geometry from the public 2017 logo file. That file is tagged public domain on Wikimedia Commons for copyright purposes, but trademark rights are unaffected. Get Brand and Legal clearance for the name, colours and logo before distributing the extension outside the company, for example on the VS Code Marketplace.
+
+## 👨‍✈️ Your captain
 
 Created by **MHUZAIFA**
 
 - GitHub: [github.com/MHUZAIFA](https://github.com/MHUZAIFA)
 - Portfolio: [mohammedhuzaifa.vercel.app](https://mohammedhuzaifa.vercel.app/)
 
-## Changelog
+## 📓 Flight log
 
-See `CHANGELOG.md`.
+See [CHANGELOG.md](CHANGELOG.md).
 
-## License
+## 📄 License
 
-MIT — see `LICENSE`.
+MIT. See [LICENSE](LICENSE).
+
+---
+
+<div align="center">
+
+*Thank you for flying Flight Deck. We know you have a choice of editor themes, and we're glad you chose to fly with us.* ✈️
+
+</div>
