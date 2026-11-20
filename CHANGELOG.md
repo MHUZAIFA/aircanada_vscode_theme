@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.5 — 2026-11-17
+
+- **The flight timer is shared across every VS Code window.** Board, pause, resume, extend or cancel in one window and the others follow within a second. A newly opened window picks up the flight in progress. Each landing is logged once and announced once, in the window you're working in.
+
 ## 0.3.4 — 2026-11-15
 
 - **New file icons, "Air Canada Aviation (Luggage Tags)".** Every file is a luggage tag in its language's colour, with a bold code of up to three letters or a symbol that reads at 16 px: `{ }` for JSON, a branch for Git, a lock for lockfiles, a box for package manifests, a key for `.env`, a plane for `.vsix`.

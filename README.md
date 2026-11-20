@@ -78,7 +78,7 @@ Click ✈ in the activity bar. Your flight sits on top, with **Flight Plan** and
 YUL ───✈······ YYZ  01:29
 ```
 
-Your flight follows you in the status bar. Click it to open the Flight Deck, or hover for quick actions: board, extend, pause, cancel or fly home.
+Your flight follows you in the status bar, in every VS Code window you have open. Click it to open the Flight Deck, or hover for quick actions: board, extend, pause, cancel or fly home.
 
 <img src="images/screenshots/status-hover.png" width="420" alt="Status bar hover after landing at YUL, with Return flight, New flight and Flight deck buttons" />
 

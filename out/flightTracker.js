@@ -36,6 +36,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FlightTracker = exports.DEFAULT_AIRCRAFT = exports.AIRCRAFT = void 0;
 exports.track = track;
 exports.clock = clock;
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 const vscode = __importStar(require("vscode"));
 /** Popular types, Air Canada fleet first. Cruise speed (kn) drives nothing yet — shown for flavour. */
 exports.AIRCRAFT = [
@@ -61,6 +63,8 @@ const SEGMENTS = 10;
 const TICK_MS = 1000;
 const HISTORY_KEY = "airCanada.flight.history";
 const EXTEND_CHIPS = [5, 10, 15, 30, 60];
+const SHARED_FILE = "flight.json";
+const SYNC_POLL_MS = 2000;
 // great-circle-ish distances (nm) for common Air Canada city pairs
 const ROUTE_NM = {
     "YYZ-YVR": 1804, "YYZ-YUL": 275, "YYZ-YYC": 1456, "YYZ-YOW": 194, "YYZ-YHZ": 688, "YYZ-YWG": 811,
@@ -87,13 +91,16 @@ class FlightTracker {
         this.onDidChange = this.changeEmitter.event;
         this.phase = "idle";
         this.elapsedMs = 0;
-        this.lastTick = 0;
+        this.resumedAt = 0;
         this.sessionMs = 0;
+        this.flightId = "";
+        this.rev = "";
         this.tooltipKey = "";
         this.item = vscode.window.createStatusBarItem("airCanada.flight", vscode.StatusBarAlignment.Left, 1000);
         this.item.name = "Air Canada Flight";
         this.item.command = "airCanada.flight.openDeck";
         this.sessionMs = this.defaultDurationMs;
+        this.syncDir = context.globalStorageUri.fsPath;
         this.disposables.push(this.item, this.changeEmitter, vscode.workspace.onDidChangeConfiguration((e) => {
             if (e.affectsConfiguration("airCanada.flight")) {
                 if (this.phase === "idle" || this.phase === "landed")
@@ -101,13 +108,15 @@ class FlightTracker {
                 this.render();
             }
         }));
+        this.initSync();
         this.render();
-        if (this.cfg("autoStart", false))
+        // Only board automatically if no other window already has a flight going.
+        if (this.cfg("autoStart", false) && (this.phase === "idle" || this.phase === "landed"))
             this.start();
     }
     // ------------------------------------------------------------ public API
     get state() {
-        const elapsed = this.phase === "idle" ? 0 : Math.min(this.elapsedMs, this.sessionMs);
+        const elapsed = this.phase === "idle" ? 0 : Math.min(this.currentElapsed(), this.sessionMs);
         return {
             phase: this.phase,
             origin: this.origin,
@@ -137,6 +146,7 @@ class FlightTracker {
             return;
         const add = Math.max(1, Math.min(600, Math.round(minutes)));
         this.sessionMs = Math.min(600 * 60000, this.sessionMs + add * 60000);
+        this.save();
         this.render();
         void vscode.window.setStatusBarMessage(`✈ Flight extended by ${add} min — ${clock(this.state.remainingMs)} remaining`, 3000);
     }
@@ -210,17 +220,21 @@ class FlightTracker {
         }
         this.sessionMs = minutes && minutes > 0 ? Math.min(600, minutes) * 60000 : this.defaultDurationMs;
         this.elapsedMs = 0;
-        this.lastTick = Date.now();
+        this.resumedAt = Date.now();
+        this.flightId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
         this.phase = "flying";
         this.ensureTimer();
+        this.save();
         this.render();
         void vscode.window.setStatusBarMessage(`✈ Cleared for takeoff — ${this.aircraft}, ${this.origin} → ${this.destination}, ${Math.round(this.sessionMs / 60000)} min`, 5000);
     }
     pause() {
         if (this.phase !== "flying")
             return;
+        this.elapsedMs = this.currentElapsed();
         this.phase = "paused";
         this.stopTimer();
+        this.save();
         this.render();
         void vscode.window.setStatusBarMessage("✈ Holding pattern — session paused", 3000);
     }
@@ -228,8 +242,9 @@ class FlightTracker {
         if (this.phase !== "paused")
             return;
         this.phase = "flying";
-        this.lastTick = Date.now();
+        this.resumedAt = Date.now();
         this.ensureTimer();
+        this.save();
         this.render();
     }
     toggle() {
@@ -251,6 +266,7 @@ class FlightTracker {
         this.phase = "idle";
         this.elapsedMs = 0;
         this.sessionMs = this.defaultDurationMs;
+        this.save();
         this.render();
     }
     /** Edit the route: both ends by default, or just one when `only` is given. */
@@ -305,6 +321,9 @@ class FlightTracker {
     }
     dispose() {
         this.stopTimer();
+        this.watcher?.close();
+        if (this.poller)
+            clearInterval(this.poller);
         for (const d of this.disposables)
             d.dispose();
     }
@@ -334,13 +353,13 @@ class FlightTracker {
             clearInterval(this.timer);
         this.timer = undefined;
     }
+    currentElapsed() {
+        return this.phase === "flying" ? this.elapsedMs + (Date.now() - this.resumedAt) : this.elapsedMs;
+    }
     tick() {
         if (this.phase !== "flying")
             return;
-        const now = Date.now();
-        this.elapsedMs += now - this.lastTick;
-        this.lastTick = now;
-        if (this.elapsedMs >= this.sessionMs) {
+        if (this.currentElapsed() >= this.sessionMs) {
             this.land();
             return;
         }
@@ -350,20 +369,141 @@ class FlightTracker {
         this.stopTimer();
         this.phase = "landed";
         this.elapsedMs = this.sessionMs;
-        const minutes = Math.round(this.sessionMs / 60000);
-        const history = this.context.globalState.get(HISTORY_KEY, []);
-        const cutoff = Date.now() - 30 * 86400000;
-        history.push({ minutes, endedAt: Date.now(), origin: this.origin, destination: this.destination });
-        void this.context.globalState.update(HISTORY_KEY, history.filter((r) => r.endedAt >= cutoff));
+        this.save();
         this.render();
-        void vscode.window
-            .showInformationMessage(`✈ Landed at ${this.destination}. ${minutes} min of focus — take a stretch.`, "Return flight", "New flight")
-            .then((choice) => {
-            if (choice === "Return flight")
-                void this.returnFlight();
-            else if (choice === "New flight")
-                void this.board();
-        });
+        this.onLanded();
+    }
+    /**
+     * Every window notices the landing, but only one logs it and only one shows
+     * the notification: whichever first creates the marker file. The focused
+     * window tries straight away; the others wait a moment, so the message lands
+     * where you're working.
+     */
+    onLanded() {
+        const id = this.flightId;
+        if (!id)
+            return;
+        const minutes = Math.round(this.sessionMs / 60000);
+        const [origin, destination] = [this.origin, this.destination];
+        if (this.claim(`landed-${id}.log`)) {
+            const history = this.context.globalState.get(HISTORY_KEY, []);
+            const cutoff = Date.now() - 30 * 86400000;
+            history.push({ minutes, endedAt: Date.now(), origin, destination });
+            void this.context.globalState.update(HISTORY_KEY, history.filter((r) => r.endedAt >= cutoff));
+        }
+        const announce = () => {
+            if (!this.claim(`landed-${id}.notify`))
+                return;
+            void vscode.window
+                .showInformationMessage(`✈ Landed at ${destination}. ${minutes} min of focus — take a stretch.`, "Return flight", "New flight")
+                .then((choice) => {
+                if (choice === "Return flight")
+                    void this.returnFlight();
+                else if (choice === "New flight")
+                    void this.board();
+            });
+        };
+        if (vscode.window.state.focused)
+            announce();
+        else
+            setTimeout(announce, 1500);
+    }
+    // ------------------------------------------------------- cross-window sync
+    initSync() {
+        try {
+            fs.mkdirSync(this.syncDir, { recursive: true });
+            this.pruneMarkers();
+        }
+        catch {
+            return; // no shared storage: behave as a single-window timer
+        }
+        this.syncFromDisk();
+        try {
+            this.watcher = fs.watch(this.syncDir, (_e, name) => {
+                if (!name || name.toString() === SHARED_FILE)
+                    this.syncFromDisk();
+            });
+        }
+        catch {
+            /* the poll below still keeps windows in step */
+        }
+        // fs.watch can miss events on some file systems; a light poll backs it up.
+        this.poller = setInterval(() => this.syncFromDisk(), SYNC_POLL_MS);
+    }
+    save() {
+        this.rev = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+        const shared = {
+            rev: this.rev,
+            flightId: this.flightId,
+            phase: this.phase,
+            sessionMs: this.sessionMs,
+            elapsedMs: this.elapsedMs,
+            resumedAt: this.resumedAt,
+        };
+        try {
+            const file = path.join(this.syncDir, SHARED_FILE);
+            const tmp = `${file}.${process.pid}.tmp`;
+            fs.writeFileSync(tmp, JSON.stringify(shared));
+            fs.renameSync(tmp, file); // atomic, so other windows never read half a file
+        }
+        catch {
+            /* sharing is best-effort; this window keeps working on its own */
+        }
+    }
+    syncFromDisk() {
+        let shared;
+        try {
+            shared = JSON.parse(fs.readFileSync(path.join(this.syncDir, SHARED_FILE), "utf8"));
+        }
+        catch {
+            return;
+        }
+        if (!shared || shared.rev === this.rev)
+            return;
+        const was = this.phase;
+        this.rev = shared.rev;
+        this.flightId = shared.flightId;
+        this.phase = shared.phase;
+        this.sessionMs = shared.phase === "idle" ? this.defaultDurationMs : shared.sessionMs;
+        this.elapsedMs = shared.elapsedMs;
+        this.resumedAt = shared.resumedAt;
+        if (this.phase === "flying") {
+            // A flight that ended while no window was watching lands now.
+            if (this.currentElapsed() >= this.sessionMs)
+                return this.land();
+            this.ensureTimer();
+        }
+        else
+            this.stopTimer();
+        this.render();
+        if (this.phase === "landed" && was !== "landed")
+            this.onLanded();
+    }
+    /** Create a marker file exclusively; true for the one window that wins. */
+    claim(name) {
+        try {
+            fs.writeFileSync(path.join(this.syncDir, name), "", { flag: "wx" });
+            return true;
+        }
+        catch (e) {
+            // Without shared storage there's only this window, so it always "wins".
+            return e.code !== "EEXIST";
+        }
+    }
+    pruneMarkers() {
+        const cutoff = Date.now() - 2 * 86400000;
+        for (const name of fs.readdirSync(this.syncDir)) {
+            if (!name.startsWith("landed-"))
+                continue;
+            const file = path.join(this.syncDir, name);
+            try {
+                if (fs.statSync(file).mtimeMs < cutoff)
+                    fs.unlinkSync(file);
+            }
+            catch {
+                /* another window removed it first */
+            }
+        }
     }
     render() {
         void vscode.commands.executeCommand("setContext", "airCanada.flight.phase", this.phase);
